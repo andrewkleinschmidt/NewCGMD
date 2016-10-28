@@ -8,7 +8,7 @@
 
 
 # Local Paths
-CGMD_Path = "/Users/andrewkleinschmidt/cgmdmodifiedscripts"
+CGMD_Path = "/Users/andrewkleinschmidt/NewCGMD"
 Template_Path = CGMD_Path + "/Templates/"
 Param_Path = CGMD_Path + "/Params/"
 

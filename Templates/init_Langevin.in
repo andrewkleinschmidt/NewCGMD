@@ -65,11 +65,7 @@ thermo         100
 
 #velocity        all  create  550.0  349359 mom yes dist gaussian 
 fix 0 all langevin 800. 800. 100 1000
-<<<<<<< HEAD
 fix 1 all nve/limit 0.1
-=======
-fix 1 all nve 0.1
->>>>>>> f4868a86e0eafd89cb06a5f310ae4fd4aeaa9780
 
 #fix 1 all nph iso 1.0 1.0 2000.0 
 #fix 2 all langevin 550.0 550.0 180.0 12345

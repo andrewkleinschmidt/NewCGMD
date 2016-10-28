@@ -75,11 +75,7 @@ else &
   "fix            0 constnpt all npt temp {Temp_In} {Temp_Out} 1000.0 iso 1.0 1.0 2000.0"
 #fix             constnpt all npt temp 550.0 550.0 2000.0 aniso 1.0 1.0 20000.0
 
-<<<<<<< HEAD
 fix 1 all nve/limit 0.1
-=======
-fix 1 all nve 0.1
->>>>>>> f4868a86e0eafd89cb06a5f310ae4fd4aeaa9780
 
 if {Substrate} then &
   "fix 3 all wall/lj126 zlo EDGE .369 3.35 13.3047"
