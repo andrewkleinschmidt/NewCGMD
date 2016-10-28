@@ -74,11 +74,7 @@ if {Substrate} then &
 
 fix 4 all adapt 1 pair soft a * * v_A
 
-<<<<<<< HEAD
 dump 0 all custom 10000 Soft.lammpstrj id type mol x y z ix iy iz
-=======
-dump 0 all custom 1000 Soft.lammpstrj id type mol x y z ix iy iz
->>>>>>> f4868a86e0eafd89cb06a5f310ae4fd4aeaa9780
 
 timestep        2.0  
 run             2000000
