@@ -13,11 +13,7 @@ import matplotlib.pyplot as plt
 import subprocess
 import Configure
 import time
-<<<<<<< HEAD
 import math
-=======
-
->>>>>>> f4868a86e0eafd89cb06a5f310ae4fd4aeaa9780
 
 def P3HTHuangDataLammps(Position_M, Position_S1, Position_S2, Filename, box_length, zBoxLength = Box_Length):
 
@@ -264,11 +260,8 @@ def Run_Huang_Equil(Name, Data_In, Solv_Screen, Dump = 'None', Num_Steps= 100000
         Temp = Temperature to run simulation at
     """
     Init_Temp = Configure.Template_Path + "init_Langevin.in"
-<<<<<<< HEAD
     Sub_Temp = Configure.Template_Path + "sub_Lammps"
-=======
     Sub_Temp = Configure.Template_Path + "GPU_sub"
->>>>>>> f4868a86e0eafd89cb06a5f310ae4fd4aeaa9780
     Init_File = "in.init_" + Name
     Sub_File = "sub_" + Name
     File_Out1 = "log.init_%s" % Name
@@ -377,7 +370,6 @@ def Run_Huang_Equil(Name, Data_In, Solv_Screen, Dump = 'None', Num_Steps= 100000
             """  code to determine # of processors, num nodes"""
     with open(Sub_Temp, 'r') as f:
         sub_template = f.read()
-<<<<<<< HEAD
     sub_template.format(Sim_Name = NVT_str + "_" +  Name + "_d" % i, path = Configure.Comet_Path % Name, NProcs = Nodes*NProcs, Nodes=Nodes, tpn = NProcs)
     with open(Sub_File, 'w') as f:
         f.write(sub_template)
@@ -400,7 +392,6 @@ def Run_Huang_Equil(Name, Data_In, Solv_Screen, Dump = 'None', Num_Steps= 100000
                 print "Sleeping process", i, "minutes"
                 time.sleep(600)
                 i += 10
-=======
             sub_template.format(Sim_Name = NVT_str + "_" +  Name + "_d" % i, path = Configure.Comet_Path % Name, NProcs = Nodes*NProcs, Nodes=Nodes, tpn = NProcs)
             with open(Sub_File, 'w') as f:
                 f.write(sub_template)
@@ -423,7 +414,6 @@ def Run_Huang_Equil(Name, Data_In, Solv_Screen, Dump = 'None', Num_Steps= 100000
                     print "Sleeping process", i, "minutes"
                     time.sleep(600)
                     i += 10
->>>>>>> f4868a86e0eafd89cb06a5f310ae4fd4aeaa9780
     os.system( 'rm %s' % Restart_Out)
 
     """File.write( '# Input file for running an NVT Equilibration in LAMMPS, Filename = %s\n\n' % In_File)
