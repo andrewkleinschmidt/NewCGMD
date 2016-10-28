@@ -1,0 +1,89 @@
+# LAMMPS input CG P3HT/C60 NVT/NPT 
+
+newton off
+
+variable A equal ramp(0.01,.99)
+
+units real
+atom_style molecular
+boundary p p {Sub_Bound}
+bond_style	hybrid harmonic poly8
+angle_style     hybrid harmonic poly4
+dihedral_style  multi/harmonic 
+improper_style  hybrid harmonic
+#pair_style	hybrid lj96/cut 15.0  lj/expand 18.0 # use for P3HT/C60
+pair_style	soft 30.0 # use for soft repulsion initialization
+read_data	{Data_In}
+  
+
+### bonds (in order): 1-1, 1-2, 2-3
+bond_coeff      1 harmonic 74.8542 3.8620  
+bond_coeff      2 poly8 4.0951	58.9180	175.4820 146.5180   0.0     0.0      0.0      0.0  
+bond_coeff      3 poly8 3.5786	20.8811	-12.6477 -161.4560 -50.2732 634.9450 941.4940 392.6440
+
+### angles (in order): 1-1-1, 1-2-3, 1-1-2, 2-1-1
+angle_coeff	1	poly4	163.161	11.256	49.98300	109.97400
+angle_coeff	2	poly4	157.196	9.415	10.95330	4.66974
+angle_coeff	3	poly4	123.473	4.578	-14.35750	61.86530
+angle_coeff	4	poly4	78.904	22.893	-2.27575	35.93060
+
+### dihedrals (in order): 1-1-1-1, 2-1-1-2, 1-1-2-3, 3-2-1-1
+#dihedral_coeff	1	multi/harmonic	1.003350 -0.098468 -0.145065 -0.596209 -0.220640
+#dihedral_coeff	2	multi/harmonic	1.435240 0.323256  -1.312070  0.357231  0.557297
+#dihedral_coeff	3	multi/harmonic	0.217212 -0.603055  0.194054  0.349013  -0.004806
+#dihedral_coeff	4	multi/harmonic	-0.017475 0.018428  0.453600  0.116077  -0.075817
+
+### impropers (in order): 1-2-1-1
+improper_coeff 1   harmonic 45.3281 0.000 # 1-1-1-2
+
+### pairs (P3HT/P3HT)
+pair_coeff	1	1	0
+pair_coeff	1	2	0
+pair_coeff	1	3	0
+pair_coeff	2	2	0
+pair_coeff	2	3	0
+pair_coeff	3	3	0
+
+
+# neighbor lists
+neighbor        20.0     bin 
+neigh_modify    delay  	1 one 10000
+
+#compute        temp1 all  temp
+thermo_style    custom step cpu temp pe etotal press density epair ebond eangle edihed eimp 
+#thermo_style    custom step cpu temp pe etotal press vol lx ly lz epair ebond eangle edihed eimp
+thermo_modify   flush yes
+thermo         100
+
+
+#select between NVT and NPT simulations
+#if {NVT} then & 
+#  "fix             constnvt all nvt temp {Temp_In} {Temp_Out} 2000.0" & 
+#else &
+#  "fix             constnpt all npt temp {Temp_In} {Temp_Out} 1000.0 iso 1.0 1.0 2000.0"
+#fix             constnpt all npt temp 550.0 550.0 2000.0 aniso 1.0 1.0 20000.0
+
+#velocity        all  create  550.0  349359 mom yes dist gaussian 
+fix 0 all langevin 800. 800. 100 1000
+<<<<<<< HEAD
+fix 1 all nve/limit 0.1
+=======
+fix 1 all nve 0.1
+>>>>>>> f4868a86e0eafd89cb06a5f310ae4fd4aeaa9780
+
+#fix 1 all nph iso 1.0 1.0 2000.0 
+#fix 2 all langevin 550.0 550.0 180.0 12345
+if {Substrate} then &
+  "fix 3 all wall/lj126 zlo EDGE .369 3.35 13.3047"
+
+fix 4 all adapt 1 pair soft a * * v_A
+
+<<<<<<< HEAD
+dump 0 all custom 10000 Soft.lammpstrj id type mol x y z ix iy iz
+=======
+dump 0 all custom 1000 Soft.lammpstrj id type mol x y z ix iy iz
+>>>>>>> f4868a86e0eafd89cb06a5f310ae4fd4aeaa9780
+
+timestep        2.0  
+run             2000000
+write_restart {Restart_Out}
